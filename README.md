@@ -1,2 +1,2 @@
-# lavarel_tasks
+# laravel_tasks
 Laboratory work 5 by the discipline "Web programming"
