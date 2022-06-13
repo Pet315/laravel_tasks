@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,5 +39,3 @@ Route::post('/congrats', 'App\Http\Controllers\SomeController@congrats');
 Route::get('/join_us', 'App\Http\Controllers\SomeController@join_us');
 
 Route::get('/user_profile', 'App\Http\Controllers\SomeController@user_profile');
-
-
