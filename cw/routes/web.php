@@ -62,7 +62,3 @@ Route::post('/m_congrats', 'App\Http\Controllers\BaseController@m_congrats');
 Route::get('/m_registration', function () {
     return view('website1/m_registration');
 });
-
-//Route::get('/search', function () {
-//    return view('search');
-//});
