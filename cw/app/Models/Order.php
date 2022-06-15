@@ -7,10 +7,10 @@ class Order extends Model
 {
 
     public function products() {
-        return $this->hasMany(Product::class);
+        return $this->belongsTo(Product::class);
     }
 
-    public function reviews() {
-        return $this->hasMany(Account::class);
+    public function accounts() {
+        return $this->belongsTo(Account::class);
     }
 }

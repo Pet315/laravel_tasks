@@ -17,48 +17,53 @@ class BaseController extends Controller
         $product_id = $req->input('product_id');
         $quantity = $req->input('quantity');
 
-        // filter 1
-        $arr1 = Account::where('name', 'like', $name)->get();
-        $arr2 = Account::where('email', 'like', $email)->get();
-        $arr3 = Account::where('phone', 'like', $phone)->get();
+        // --- filter 1
 
-        if (count($arr1) == 0 && (count($arr2) == 0 || count($arr3) == 0)) {
+        $account_id = Account::where('name', 'like', $name)->get('id'); // searching for account id using name
+
+        if (count($account_id) == 0) { // if this name is unique
+
+            // checking for errors
             if (strlen($phone) < 7 && strlen($email) < 5) {
                 return view('website1/specification', ['name' => "Будь ласка, введіть email, або телефон для зв'язку"]);
             }
-            if (!ctype_digit($phone) && !stristr($phone, "+") && !stristr($phone, "-") &&
-                (!stristr($email, '@') || !stristr($email, '.'))) {
+            if ((!ctype_digit($phone) && !stristr($phone, "+") && !stristr($phone, "-")) ||
+                (!stristr($email, '@') && !stristr($email, '-')) || (!stristr($email, '.') &&
+                    !stristr($email, '-'))) {
                 return view('website1/specification', ['name' => "Помилка при написанні номеру телефону, або електронної пошти"]);
             }
+
+            // saving to db
             Account::insert([
                 ['name' => $name, 'email' => $email, 'phone' => $phone]]);
 
         }
 
-        //filter 2
+        // --- filter 2
+        $account_id = Account::where('name', 'like', $name)->get('id')[0]; // searching for account id using name
+        $account_orders = Account::find($account_id['id'])->orders; // account orders
 
-        $order_ids = Account::get('id');
-        $i=0;
-        foreach ($order_ids as $oi) {
-            $arr[$i] = $oi;
-            $i++;
-        }
-        $account_id = end($arr);
-        $arr1 = Order::where('account_id', 'like', $account_id['id'])->get();
+        if(count($account_orders) < 6) { // creating account orders limit
 
-        if(count($arr1) < 6) {
-
-            if (!ctype_digit($product_id) && !ctype_digit($quantity)) {
-                return view('website1/specification', ['name' => "Вводьте кількість і номер товару тільки числами!"]);
+            // checking for errors
+            if (!ctype_digit($product_id) || !ctype_digit($quantity)) {
+                return view('website1/specification', ['name' => "Вводьте кількість і номер товару тільки за допомогою чисел!"]);
+            }
+            if ($product_id > 4 || $quantity <= 0) {
+                return view('website1/specification', ['name' => "Неправильно введено код товару (має бути від 1 до 4), або кількість (>1)."]);
             }
 
+            // saving to db
             Order::insert([['quantity' => $quantity, 'product_id' => $product_id, 'account_id' => $account_id['id']]]);
             $pr = Product::where('id', 'like', $product_id)->get()[0];
 
-            return view('website1/congrats', ['name' => $name, 'quantity' => $quantity, 'products' => $pr]);
+            // returning info about last ordered product
+            return view('website1/congrats', ['name' => $name, 'quantity' => $quantity, 'product' => $pr]);
         }
 
-        return view('website1/specification', ['name' => "Дякуємо! Ліміт обрання товарів вичерпано"]);
+        return view('website1/specification', ['name' => "Ліміт обрання товарів для користувачів з цими ім'ям та
+        прізвищем вичерпано. Якщо це ваше перше замовлення, вводячи ім'я та прізвище, додайте ще кілька цифр/літер в
+        кінці, або ім'я по-батькові"]);
     }
 
     public function m_congrats(Request $req)
@@ -69,47 +74,53 @@ class BaseController extends Controller
         $product_id = $req->input('product_id');
         $quantity = $req->input('quantity');
 
-        // filter 1
-        $arr1 = Account::where('name', 'like', $name)->get();
-        $arr2 = Account::where('email', 'like', $email)->get();
-        $arr3 = Account::where('phone', 'like', $phone)->get();
-        if (count($arr1) == 0 && (count($arr2) == 0 || count($arr3) == 0)) {
+        // --- filter 1
+
+        $account_id = Account::where('name', 'like', $name)->get('id'); // searching for account id using name
+
+        if (count($account_id) == 0) { // if this name is unique
+
+            // checking for errors
             if (strlen($phone) < 7 && strlen($email) < 5) {
                 return view('website1/m_specification', ['name' => "Будь ласка, введіть email, або телефон для зв'язку"]);
             }
-            if (!ctype_digit($phone) && !stristr($phone, "+") && !stristr($phone, "-") &&
-                (!stristr($email, '@') || !stristr($email, '.'))) {
+            if ((!ctype_digit($phone) && !stristr($phone, "+") && !stristr($phone, "-")) ||
+                (!stristr($email, '@') && !stristr($email, '-')) || (!stristr($email, '.') &&
+                    !stristr($email, '-'))) {
                 return view('website1/m_specification', ['name' => "Помилка при написанні номеру телефону, або електронної пошти"]);
             }
+
+            // saving to db
             Account::insert([
                 ['name' => $name, 'email' => $email, 'phone' => $phone]]);
 
         }
 
-        //filter 2
+        // --- filter 2
+        $account_id = Account::where('name', 'like', $name)->get('id')[0]; // searching for account id using name
+        $account_orders = Account::find($account_id['id'])->orders; // account orders
 
-        $order_ids = Account::get('id');
-        $i=0;
-        foreach ($order_ids as $oi) {
-            $arr[$i] = $oi;
-            $i++;
-        }
-        $account_id = end($arr);
-        $arr1 = Order::where('account_id', 'like', $account_id['id'])->get();
+        if(count($account_orders) < 6) { // creating account orders limit
 
-        if(count($arr1) < 6) {
-
-            if (!ctype_digit($product_id) && !ctype_digit($quantity)) {
-                return view('website1/m_specification', ['name' => "Вводьте кількість і номер товару тільки числами!"]);
+            // checking for errors
+            if (!ctype_digit($product_id) || !ctype_digit($quantity)) {
+                return view('website1/m_specification', ['name' => "Вводьте кількість і номер товару тільки за допомогою чисел!"]);
+            }
+            if ($product_id > 4 || $quantity <= 0) {
+                return view('website1/m_specification', ['name' => "Неправильно введено код товару (має бути від 1 до 4), або кількість (>1)."]);
             }
 
+            // saving to db
             Order::insert([['quantity' => $quantity, 'product_id' => $product_id, 'account_id' => $account_id['id']]]);
             $pr = Product::where('id', 'like', $product_id)->get()[0];
 
-            return view('website1/m_congrats', ['name' => $name, 'quantity' => $quantity, 'products' => $pr]);
+            // returning info about last ordered product
+            return view('website1/m_congrats', ['name' => $name, 'quantity' => $quantity, 'product' => $pr]);
         }
 
-        return view('website1/m_specification', ['name' => "Дякуємо! Ліміт обрання товарів вичерпано"]);
+        return view('website1/m_specification', ['name' => "Ліміт обрання товарів для користувачів з цими ім'ям та
+        прізвищем вичерпано. Якщо це ваше перше замовлення, вводячи ім'я та прізвище, додайте ще кілька цифр/літер в
+        кінці, або ім'я по-батькові"]);
     }
 
 

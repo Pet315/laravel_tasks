@@ -9,9 +9,9 @@
 @section('base')
     <div style="height: 300px">
         <p class="thanks">
-            Дякуємо, {{ $name }}. Вами замовлено товар "{{$products['name']}}" кількістю
-            {{$quantity}} {{$products['unit']}}. Загальна ціна: {{$quantity*$products['price']}}
-            {{$products['currency']}}.
+            Дякуємо, {{ $name }}. Вами замовлено товар "{{$product['name']}}" кількістю
+            {{$quantity}} {{$product['unit']}}. Загальна ціна: {{$quantity*$product['price']}}
+            {{$product['currency']}}.
             Очікуйте дзвінка, або листа на пошту. Найближчим часом з вами зв'яжуться.
             Також можете <u><a href="mobile2" style="color: #B53F3F">замовити ще бажаних товарів.</a></u>
         </p>

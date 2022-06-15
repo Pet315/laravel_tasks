@@ -3,6 +3,7 @@
 use App\Models\Account;
 use Illuminate\Support\Facades\Route;
 use App\Models\Product;
+use App\Models\Order;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,13 +65,17 @@ Route::get('/m_registration', function () {
     return view('website1/m_registration');
 });
 
-//Route::get('/some', function () {
-//    $order_ids = Account::get('id');
-//    $i=0;
-//    foreach ($order_ids as $oi) {
-//        $arr[$i] = $oi;
-//        $i++;
-//    }
-//    $account_id = end($arr);
-//    return view('some', ['order_ids' => $order_ids, 'account_id' => $account_id]);
+Route::get('/for_myself/{order_id}/{account_id}/{product_id}', function ($order_id, $account_id, $product_id, $name) {
+    $account = Account::find($account_id);
+    $account_orders = Account::find($account_id)->orders;
+    $products = Product::get();
+    $product_orders = Product::find($product_id)->orders;
+    return view('for_myself', ['account'=>$account, 'account_orders'=>$account_orders,
+        'products'=>$products, 'product_id'=>$product_id,'product_orders'=>$product_orders]);
+});
+
+//Route::get('/for_myself/{name}', function ($name) {
+//    $account_id = Account::where('name', 'like', $name)->get('id')[0]; // searching for account id using name
+//    $account_orders = Account::find($account_id['id'])->orders; // account orders
+//    return view('for_myself', ['account'=>$account_orders]);
 //});

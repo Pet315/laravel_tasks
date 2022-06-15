@@ -12,7 +12,7 @@
         <div class="mr_part2">
             <form action="./m_congrats" method="post">
                 @csrf
-                <a name="reg"><p class="name">Введіть ваше ім'я: <input type="text" name="name" /></p></a>
+                <a name="reg"><p class="name">Ім'я, прізвище: <input type="text" name="name" /></p></a>
                 <p class="email">E-mail: <input type="text" name="email" /></p>
                 <p class="phone">Телефон: <input type="text" name="phone" /></p>
                 <p class="product_id">Номер товару (*): <input type="text" name="product_id" /></p>
