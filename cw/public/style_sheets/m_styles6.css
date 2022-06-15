@@ -7,6 +7,12 @@
   line-height: 19px;
   word-wrap: break-word;
 }
+.instr {
+  margin-top: -50px;
+}
+.mr_part2 {
+  height: 500px;
+}
 .mr_part2 p {
   font-family: 'Montserrat';
   font-style: normal;
@@ -34,9 +40,14 @@
   font-size: 14px;
   text-align: center;
 }
+@media (max-width: 460px) {
+  .instr {
+    width: 240px;
+  }
+}
 @media (max-width: 421px) {
   .thanks {
-    width: 300px;
+    width: 260px;
   }
 }
 @media (max-width: 407px) {
@@ -44,4 +55,4 @@
     margin-left: -50px;
   }
 }
-/*# sourceMappingURL=m_styles5.css.map */
+/*# sourceMappingURL=m_styles6.css.map */

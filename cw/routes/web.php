@@ -1,7 +1,8 @@
 <?php
 
+use App\Models\Account;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\DB;
+use App\Models\Product;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,3 +63,14 @@ Route::post('/m_congrats', 'App\Http\Controllers\BaseController@m_congrats');
 Route::get('/m_registration', function () {
     return view('website1/m_registration');
 });
+
+//Route::get('/some', function () {
+//    $order_ids = Account::get('id');
+//    $i=0;
+//    foreach ($order_ids as $oi) {
+//        $arr[$i] = $oi;
+//        $i++;
+//    }
+//    $account_id = end($arr);
+//    return view('some', ['order_ids' => $order_ids, 'account_id' => $account_id]);
+//});

@@ -31,7 +31,7 @@
 
     <p class="text">Переробка шин та інших полімерних відходів</p>
 
-    <a href="registration#reg"><button class="button">Зв’язатись з нами</button></a>
+    <a href="registration#reg"><button class="button">Замовити товар</button></a>
 
 </div>
 
