@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class BaseController extends Controller
 {
+
     public function congrats(Request $req)
     {
         $name = $req->input('name');
@@ -19,51 +20,45 @@ class BaseController extends Controller
 
         // --- filter 1
 
-        $account_id = Account::where('name', 'like', $name)->get('id'); // searching for account id using name
+        $account_id = Account::where('name', 'like', $name)->where('phone', 'like', $phone)->get('id');
 
-        if (count($account_id) == 0) { // if this name is unique
-
+        if (count($account_id) == 0) {
             // checking for errors
-            if (strlen($phone) < 7 && strlen($email) < 5) {
-                return view('website1/specification', ['name' => "Будь ласка, введіть email, або телефон для зв'язку"]);
+            if ((strlen($phone) < 7 || strlen($phone) > 16)) {
+                return view('website1/specification', ['name' => "Введіть телефон (тільки цифрами), а також email (якщо не бажаєте вводити email, поставте прочерк)."]);
             }
-            if ((!ctype_digit($phone) && !stristr($phone, "+") && !stristr($phone, "-")) ||
-                (!stristr($email, '@') && !stristr($email, '-')) || (!stristr($email, '.') &&
-                    !stristr($email, '-'))) {
-                return view('website1/specification', ['name' => "Помилка при написанні номеру телефону, або електронної пошти"]);
+            if (!ctype_digit($phone) && !stristr($phone, '+')) {
+                return view('website1/specification', ['name' => "Помилка при написанні номеру телефону (мають бути тільки числа)."]);
+            }
+            if (!ctype_digit($product_id) || !ctype_digit($quantity)) {
+                return view('website1/specification', ['name' => "Вводьте кількість і номер товару тільки за допомогою чисел!"]);
+            }
+            if ($product_id > 4 || $quantity < 1) {
+                return view('website1/specification', ['name' => "Неправильно введено код товару (має бути від 1 до 4), або кількість (>0)."]);
             }
 
             // saving to db
             Account::insert([
                 ['name' => $name, 'email' => $email, 'phone' => $phone]]);
 
+            $account_id = Account::where('name', 'like', $name)->where('phone', 'like', $phone)->get('id');
         }
 
         // --- filter 2
-        $account_id = Account::where('name', 'like', $name)->get('id')[0]; // searching for account id using name
-        $account_orders = Account::find($account_id['id'])->orders; // account orders
+        $account_orders = Account::find($account_id[0]['id'])->orders; // account orders
 
         if(count($account_orders) < 6) { // creating account orders limit
 
-            // checking for errors
-            if (!ctype_digit($product_id) || !ctype_digit($quantity)) {
-                return view('website1/specification', ['name' => "Вводьте кількість і номер товару тільки за допомогою чисел!"]);
-            }
-            if ($product_id > 4 || $quantity <= 0) {
-                return view('website1/specification', ['name' => "Неправильно введено код товару (має бути від 1 до 4), або кількість (>1)."]);
-            }
-
             // saving to db
-            Order::insert([['quantity' => $quantity, 'product_id' => $product_id, 'account_id' => $account_id['id']]]);
-            $pr = Product::where('id', 'like', $product_id)->get()[0];
+            Order::insert([['quantity' => $quantity, 'product_id' => $product_id, 'account_id' => $account_id[0]['id']]]);
 
-            // returning info about last ordered product
+            // returning account name and info about last ordered products
+            $pr = Product::where('id', 'like', $product_id)->get()[0];
             return view('website1/congrats', ['name' => $name, 'quantity' => $quantity, 'product' => $pr]);
         }
 
-        return view('website1/specification', ['name' => "Ліміт обрання товарів для користувачів з цими ім'ям та
-        прізвищем вичерпано. Якщо це ваше перше замовлення, вводячи ім'я та прізвище, додайте ще кілька цифр/літер в
-        кінці, або ім'я по-батькові"]);
+        return view('website1/specification', ['name' => "На жаль, ліміт замовлення товарів для вас уже
+        вичерпано. Очікуйте зворотнього зв'язку."]);
     }
 
     public function m_congrats(Request $req)
@@ -76,51 +71,45 @@ class BaseController extends Controller
 
         // --- filter 1
 
-        $account_id = Account::where('name', 'like', $name)->get('id'); // searching for account id using name
+        $account_id = Account::where('name', 'like', $name)->where('phone', 'like', $phone)->get('id');
 
-        if (count($account_id) == 0) { // if this name is unique
-
+        if (count($account_id) == 0) {  // if entered data is unique
             // checking for errors
-            if (strlen($phone) < 7 && strlen($email) < 5) {
-                return view('website1/m_specification', ['name' => "Будь ласка, введіть email, або телефон для зв'язку"]);
+            if ((strlen($phone) < 7 || strlen($phone) > 16)) {
+                return view('website1/m_specification', ['name' => "Введіть телефон (тільки цифрами), а також email (якщо не бажаєте вводити email, поставте прочерк)."]);
             }
-            if ((!ctype_digit($phone) && !stristr($phone, "+") && !stristr($phone, "-")) ||
-                (!stristr($email, '@') && !stristr($email, '-')) || (!stristr($email, '.') &&
-                    !stristr($email, '-'))) {
-                return view('website1/m_specification', ['name' => "Помилка при написанні номеру телефону, або електронної пошти"]);
+            if (!ctype_digit($phone) && !stristr($phone, '+')) {
+                return view('website1/m_specification', ['name' => "Помилка при написанні номеру телефону (мають бути тільки числа)."]);
+            }
+            if (!ctype_digit($product_id) || !ctype_digit($quantity)) {
+                return view('website1/m_specification', ['name' => "Вводьте кількість і номер товару тільки за допомогою чисел!"]);
+            }
+            if ($product_id > 4 || $quantity < 1) {
+                return view('website1/m_specification', ['name' => "Неправильно введено код товару (має бути від 1 до 4), або кількість (>0)."]);
             }
 
             // saving to db
             Account::insert([
                 ['name' => $name, 'email' => $email, 'phone' => $phone]]);
 
+            $account_id = Account::where('name', 'like', $name)->where('phone', 'like', $phone)->get('id');
         }
 
         // --- filter 2
-        $account_id = Account::where('name', 'like', $name)->get('id')[0]; // searching for account id using name
-        $account_orders = Account::find($account_id['id'])->orders; // account orders
+        $account_orders = Account::find($account_id[0]['id'])->orders; // account orders
 
         if(count($account_orders) < 6) { // creating account orders limit
 
-            // checking for errors
-            if (!ctype_digit($product_id) || !ctype_digit($quantity)) {
-                return view('website1/m_specification', ['name' => "Вводьте кількість і номер товару тільки за допомогою чисел!"]);
-            }
-            if ($product_id > 4 || $quantity <= 0) {
-                return view('website1/m_specification', ['name' => "Неправильно введено код товару (має бути від 1 до 4), або кількість (>1)."]);
-            }
-
             // saving to db
-            Order::insert([['quantity' => $quantity, 'product_id' => $product_id, 'account_id' => $account_id['id']]]);
-            $pr = Product::where('id', 'like', $product_id)->get()[0];
+            Order::insert([['quantity' => $quantity, 'product_id' => $product_id, 'account_id' => $account_id[0]['id']]]);
 
-            // returning info about last ordered product
+            // returning account name and info about last ordered products
+            $pr = Product::where('id', 'like', $product_id)->get()[0];
             return view('website1/m_congrats', ['name' => $name, 'quantity' => $quantity, 'product' => $pr]);
         }
 
-        return view('website1/m_specification', ['name' => "Ліміт обрання товарів для користувачів з цими ім'ям та
-        прізвищем вичерпано. Якщо це ваше перше замовлення, вводячи ім'я та прізвище, додайте ще кілька цифр/літер в
-        кінці, або ім'я по-батькові"]);
+        return view('website1/m_specification', ['name' => "Дякуємо! Ліміт замовлення товарів для вас уже
+        вичерпано. Очікуйте зворотнього зв'язку."]);
     }
 
 

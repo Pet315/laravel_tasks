@@ -17,7 +17,7 @@
 
     <div class="thanks">
         <h1>
-            Дякуємо, {{ $name }}. Вами замовлено товар "{{$product['name']}}" кількістю
+            Дякуємо, {{ htmlspecialchars($name) }}. Вами замовлено товар "{{$product['name']}}" кількістю
             {{$quantity}} {{$product['unit']}}. Загальна ціна: {{$quantity*$product['price']}}
             {{$product['currency']}}.
             Очікуйте дзвінка, або листа на пошту. Найближчим часом з вами зв'яжуться.

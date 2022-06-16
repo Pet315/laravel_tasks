@@ -74,8 +74,8 @@ Route::get('/for_myself/{order_id}/{account_id}/{product_id}', function ($order_
         'products'=>$products, 'product_id'=>$product_id,'product_orders'=>$product_orders]);
 });
 
-//Route::get('/for_myself/{name}', function ($name) {
-//    $account_id = Account::where('name', 'like', $name)->get('id')[0]; // searching for account id using name
-//    $account_orders = Account::find($account_id['id'])->orders; // account orders
-//    return view('for_myself', ['account'=>$account_orders]);
-//});
+Route::get('/for_myself/{name}', function ($name) {
+    $account_id = Account::where('name', 'like', $name)->get('id')[0]; // searching for account id using name
+    $account_orders = Account::find($account_id['id'])->orders; // account orders
+    return view('for_myself', ['account'=>$account_orders]);
+});
