@@ -9,15 +9,22 @@ use Illuminate\Http\Response;
 
 class CookieController extends Controller
 {
-    public function setCookie(Request $request) {
-        $minutes = 1;
-        $response = new Response('Hello World');
-        $response->withCookie(cookie('name', 'fariz', $minutes));
+    public function setCookie() {
+//        $minutes = 1;
+        $response = new Response();
+        $response->withCookie(cookie('name5', 'a'));
+        $response->withCookie(cookie('name2', 'b'));
+        $response->withCookie(cookie('name4', 'c'));
         return $response;
     }
 
     public function getCookie(Request $request) {
-        $value = $request->cookie('name');
-        echo $value;
+        echo $request->cookie('name');
+        echo $request->cookie('name5');
+        if ($request->cookie('name')) {
+            echo 'Yeah';
+        } else {
+            echo 'Nothing';
+        }
     }
 }

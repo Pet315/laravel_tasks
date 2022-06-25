@@ -14,7 +14,7 @@
 @endsection
 
 @section('base')
-
+<!--    --><?php //$name = $_COOKIE['login'] ?? null;?>
     <div class="thanks">
         <h1>
             Дякуємо, {{ htmlspecialchars($name) }}. Вами замовлено товар "{{$product['name']}}" кількістю

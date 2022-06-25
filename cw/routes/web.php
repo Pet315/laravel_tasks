@@ -3,7 +3,7 @@
 use App\Models\Account;
 use Illuminate\Support\Facades\Route;
 use App\Models\Product;
-use App\Models\Order;
+use Illuminate\Support\Facades\Cookie;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,12 +36,9 @@ Route::get('/article1', function () {
     return view('website1/article1');
 });
 
-Route::post('/congrats',
-    'App\Http\Controllers\BaseController@congrats');
+Route::post('/congrats', 'App\Http\Controllers\BaseController@congrats');
 
-Route::get('/registration', function () {
-    return view('website1/registration');
-});
+Route::get('/registration', 'App\Http\Controllers\BaseController@cookies');
 
 Route::get('/mobile1', function () {
     return view('website1/mobile1');
@@ -78,4 +75,11 @@ Route::get('/for_myself/{name}', function ($name) {
     $account_id = Account::where('name', 'like', $name)->get('id')[0]; // searching for account id using name
     $account_orders = Account::find($account_id['id'])->orders; // account orders
     return view('for_myself', ['account'=>$account_orders]);
+});
+
+Route::get('/cookie/set', "App\Http\Controllers\CookieController@setCookie");
+Route::get('/get', "App\Http\Controllers\CookieController@getCookie");
+
+Route::get('/del_cookie', function () {
+    return redirect('/registration')->withCookie(Cookie::forget('name'));
 });

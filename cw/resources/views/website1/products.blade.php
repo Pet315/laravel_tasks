@@ -31,7 +31,7 @@
                     клиноподібних ременів, шлангів високого тиску, а також при виробництві автомобільних та інших гумових шин.</p>
                 <p class="price">Ціна: 1500 грн/тонна</p>
 
-                <a href="registration#reg"><button class="buy">Придбати</button></a>
+                <a href="registration"><button class="buy">Придбати</button></a>
             </div>
 
             <div class="product2">
@@ -44,7 +44,7 @@
                     низьку температуру замерзання, а також досить дешеве. Можна використовувати для опалення різних об'єктів.</p>
                 <p class="price">Ціна: 15 грн/літр</p>
 
-                <a href="registration#reg"><button class="buy">Придбати</button></a>
+                <a href="registration"><button class="buy">Придбати</button></a>
 
             </div>
 
@@ -62,7 +62,7 @@
                     Відрізняється незначним вмістом сірки і може знайти застосування в якості сировини для отримання сорбентів або брикетів.</p>
                 <p class="price">Ціна: 1000 грн/тонна</p>
 
-                <a href="registration#reg"><button class="buy">Придбати</button></a>
+                <a href="registration"><button class="buy">Придбати</button></a>
             </div>
 
             <div class="product4">
@@ -75,7 +75,7 @@
                     обладнання, яке виготовлялося за унікальною методикою з використанням досвіду інших розробників Польщі, Німеччини та України.</p>
                 <p class="price">Ціна: 120 тис. $</p>
 
-                <a href="registration#reg"><button class="buy">Придбати</button></a>
+                <a href="registration"><button class="buy">Придбати</button></a>
 
             </div>
 
